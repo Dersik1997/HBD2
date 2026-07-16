@@ -11,10 +11,8 @@
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
     />
 
-    <!-- Library khusus untuk efek kembang api muncrat (Real Physics) -->
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.2/dist/confetti.browser.min.js"></script>
 
-    <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -107,6 +105,7 @@
         left: 5%;
         width: 90%;
         background-color: rgba(212, 93, 139, 0.15);
+        -webkit-backdrop-filter: blur(16px);
         backdrop-filter: blur(16px);
         padding: 12px 25px;
         border-radius: 50px;
@@ -133,8 +132,9 @@
 
       /* --- INTRO & PORTAL ANIMATION --- */
       #intro-screen {
+        -webkit-clip-path: circle(150% at 50% 50%);
         clip-path: circle(150% at 50% 50%);
-        transition: clip-path 1.2s cubic-bezier(0.7, 0, 0.3, 1);
+        transition: -webkit-clip-path 1.2s cubic-bezier(0.7, 0, 0.3, 1), clip-path 1.2s cubic-bezier(0.7, 0, 0.3, 1);
       }
       @keyframes bounceInCute {
         0% {
@@ -219,6 +219,7 @@
       /* --- Glassmorphism Card --- */
       .glass-card {
         background: rgba(255, 255, 255, 0.03);
+        -webkit-backdrop-filter: blur(16px);
         backdrop-filter: blur(16px);
         border: 1px solid rgba(238, 156, 167, 0.15);
         box-shadow:
@@ -311,19 +312,17 @@
     </style>
   </head>
   <body class="text-gray-200 font-sans overflow-x-hidden antialiased relative">
-    <!-- ================= CAHAYA BACKGROUND GLOBAL ================= -->
-    <div class="fixed inset-0 z-0 pointer-events-none overflow-hidden">
+    <div class="fixed inset-0 z-0 pointer-events-none overflow-hidden transform-gpu">
       <div
-        class="absolute top-[-10%] left-[-10%] w-[50vw] h-[50vw] rounded-full bg-lux-pink/20 blur-[120px] mix-blend-screen animate-pulse"
+        class="absolute top-[-10%] left-[-10%] w-[60vw] h-[60vw] rounded-full bg-lux-pink/20 blur-[80px] md:blur-[120px] animate-pulse transform-gpu"
         style="animation-duration: 8s"
       ></div>
       <div
-        class="absolute bottom-[-10%] right-[-10%] w-[60vw] h-[60vw] rounded-full bg-[#5c1833]/40 blur-[150px] mix-blend-screen animate-pulse"
+        class="absolute bottom-[-10%] right-[-10%] w-[70vw] h-[70vw] rounded-full bg-[#5c1833]/40 blur-[80px] md:blur-[150px] animate-pulse transform-gpu"
         style="animation-duration: 10s"
       ></div>
     </div>
 
-    <!-- ================= INTRO / PRELOADER SCREEN ================= -->
     <div
       id="intro-screen"
       class="fixed inset-0 z-[9999] flex flex-col items-center justify-center bg-[#0a0205]/90 backdrop-blur-md cursor-pointer"
@@ -364,7 +363,6 @@
 
     <div id="particle-container"></div>
 
-    <!-- ================= ELEMENT AUDIO ================= -->
     <audio id="myAudio" loop>
       <source
         src="Bruno Mars - All I Ask [Studio Version].mp3"
@@ -372,7 +370,6 @@
       />
     </audio>
 
-    <!-- Mini Spotify-like Player -->
     <div
       class="fixed bottom-6 right-6 md:right-8 z-50 glass-card rounded-[2rem] p-3 pr-5 flex items-center gap-4 w-72 shadow-2xl hover:scale-105 transition-transform origin-bottom-right"
     >
@@ -410,7 +407,6 @@
       </button>
     </div>
 
-    <!-- Elegant Navbar -->
     <nav
       id="navbar"
       class="fixed z-40 flex justify-between items-center nav-top"
@@ -422,7 +418,6 @@
         <i class="fas fa-heart text-lux-pink text-sm animate-pulse shadow-lux-pink"></i>
       </div>
       
-      <!-- Desktop Menu -->
       <div class="hidden md:flex space-x-10 text-[11px] uppercase tracking-[0.2em] font-medium text-gray-300">
         <a href="#hero" class="nav-link hover:text-lux-pink transition-colors duration-300">Home</a>
         <a href="#gallery" class="nav-link hover:text-lux-pink transition-colors duration-300">Gallery</a>
@@ -430,27 +425,22 @@
         <a href="#letter" class="nav-link hover:text-lux-pink transition-colors duration-300">Letter</a>
       </div>
 
-      <!-- Hamburger Button (Mobile Only) -->
       <button id="mobile-btn" class="md:hidden text-gray-300 hover:text-lux-pink focus:outline-none transition-transform duration-300 hover:scale-110">
         <i class="fas fa-bars text-2xl"></i>
       </button>
     </nav>
 
-    <!-- Fullscreen Mobile Menu Overlay -->
     <div id="mobile-menu" class="fixed inset-0 z-[100] bg-[#0a0205]/95 backdrop-blur-xl flex-col items-center justify-center space-y-10 text-sm uppercase tracking-[0.3em] font-medium text-gray-300 transition-all duration-500 opacity-0 pointer-events-none flex">
-      <!-- Close Button -->
       <button id="close-btn" class="absolute top-8 right-8 text-gray-400 hover:text-lux-pink transition-transform duration-300 hover:scale-110 focus:outline-none">
         <i class="fas fa-times text-4xl"></i>
       </button>
       
-      <!-- Mobile Links -->
       <a href="#hero" class="mobile-link hover:text-lux-pink transition-colors duration-300 text-xl">Home</a>
       <a href="#gallery" class="mobile-link hover:text-lux-pink transition-colors duration-300 text-xl">Gallery</a>
       <a href="#quirks" class="mobile-link hover:text-lux-pink transition-colors duration-300 text-xl">Cute Sides</a>
       <a href="#letter" class="mobile-link hover:text-lux-pink transition-colors duration-300 text-xl">Letter</a>
     </div>
 
-    <!-- Hero Section -->
     <section
       id="hero"
       class="min-h-screen flex flex-col justify-center items-center text-center px-4 relative z-10 pt-16"
@@ -532,7 +522,6 @@
       </div>
     </section>
 
-    <!-- NEW ZIGZAG GALLERY SECTION (Agak Miring Kasual) -->
     <section
       id="gallery"
       class="py-24 md:py-32 relative z-10 max-w-7xl mx-auto px-6 md:px-12 overflow-hidden"
@@ -556,7 +545,6 @@
       </div>
 
       <div class="space-y-32 md:space-y-40">
-        <!-- Poto 1: Teks Kiri, Foto Kanan (Miring Kanan 3 derajat) -->
         <div
           class="flex flex-col md:flex-row items-center gap-8 md:gap-16 group"
         >
@@ -593,7 +581,6 @@
           </div>
         </div>
 
-        <!-- Poto 2: Foto Kiri, Teks Kanan (Miring Kiri 2 derajat) -->
         <div
           class="flex flex-col md:flex-row items-center gap-8 md:gap-16 group"
         >
@@ -630,7 +617,6 @@
           </div>
         </div>
 
-        <!-- Poto 3: Teks Kiri, Foto Kanan (Miring Kanan 2 derajat) -->
         <div
           class="flex flex-col md:flex-row items-center gap-8 md:gap-16 group"
         >
@@ -667,7 +653,6 @@
           </div>
         </div>
 
-        <!-- Poto 4: Foto Kiri, Teks Kanan (Miring Kiri 3 derajat) -->
         <div
           class="flex flex-col md:flex-row items-center gap-8 md:gap-16 group"
         >
@@ -705,9 +690,6 @@
         </div>
       </div>
     </section>
-    <!-- END NEW ZIGZAG GALLERY -->
-
-    <!-- The Adorable Quirks -->
     <section
       id="quirks"
       class="py-24 px-6 md:px-12 relative z-10 bg-gradient-to-b from-transparent via-[#1c0610]/40 to-transparent"
@@ -772,7 +754,6 @@
       </div>
     </section>
 
-    <!-- Devotion Section -->
     <section id="reasons" class="py-32 px-6 md:px-12 relative z-10">
       <div class="max-w-7xl mx-auto">
         <div class="text-center mb-20 reveal">
@@ -849,7 +830,6 @@
       </div>
     </section>
 
-    <!-- Letter Section -->
     <section
       id="letter"
       class="py-32 px-6 md:px-12 max-w-5xl mx-auto relative z-10"
@@ -913,7 +893,6 @@
       </div>
     </section>
 
-    <!-- Wishing Well Section -->
     <section
       id="wishes"
       class="py-32 px-6 md:px-12 relative z-10 text-center border-t border-white/5 bg-black/40 backdrop-blur-sm"
@@ -997,7 +976,8 @@
       const body = document.body;
 
       introScreen.addEventListener("click", function (e) {
-        // Animasi portal menutup
+        // Animasi portal menutup (Support iOS & Browser lain)
+        this.style.webkitClipPath = `circle(0% at ${e.clientX}px ${e.clientY}px)`;
         this.style.clipPath = `circle(0% at ${e.clientX}px ${e.clientY}px)`;
 
         // PLAY MUSIK OTOMATIS
