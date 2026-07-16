@@ -1,0 +1,1254 @@
+<!doctype html>
+<html lang="id" class="scroll-smooth">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>A Celestial Birthday Celebration for You</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+
+    <!-- Library khusus untuk efek kembang api muncrat (Real Physics) -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.2/dist/confetti.browser.min.js"></script>
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600;700&family=Jost:wght@300;400;500&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap"
+      rel="stylesheet"
+    />
+
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            fontFamily: {
+              serif: ['"Playfair Display"', "serif"],
+              sans: ['"Jost"', "sans-serif"],
+              cursive: ['"Dancing Script"', "cursive"],
+            },
+            colors: {
+              "lux-pink": "#d45d8b",
+              "lux-dark": "#0a0205",
+            },
+          },
+        },
+      };
+    </script>
+
+    <style>
+      body {
+        background-color: #0a0205;
+        background-image:
+          radial-gradient(circle at 50% 0%, #3a0d20 0%, transparent 50%),
+          radial-gradient(circle at 100% 50%, #240513 0%, transparent 50%),
+          radial-gradient(circle at 0% 100%, #3a0d20 0%, #0a0205 60%);
+        background-attachment: fixed;
+        overflow-y: hidden; /* Lock scroll on intro */
+      }
+
+      .text-rose-gold {
+        color: #f4c2c2;
+        background: linear-gradient(
+          to right,
+          #ffdde1 0%,
+          #ee9ca7 50%,
+          #ffdde1 100%
+        );
+        background-size: 200% auto;
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        animation: shine 5s linear infinite;
+      }
+      @keyframes shine {
+        to {
+          background-position: 200% center;
+        }
+      }
+
+      /* --- BINTIK LOVE KELAP-KELIP DI INTRO --- */
+      .twinkle-love {
+        position: absolute;
+        color: rgba(212, 93, 139, 0.6);
+        animation: twinkleLove 3s infinite ease-in-out;
+        text-shadow: 0 0 8px rgba(212, 93, 139, 0.8);
+      }
+      @keyframes twinkleLove {
+        0%,
+        100% {
+          opacity: 0.1;
+          transform: scale(0.5);
+        }
+        50% {
+          opacity: 1;
+          transform: scale(1.3);
+        }
+      }
+
+      /* --- NAVBAR ANIMATION --- */
+      #navbar {
+        transition: all 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+      }
+      .nav-top {
+        top: 0;
+        left: 0;
+        width: 100%;
+        background-color: transparent;
+        padding: 20px 5%;
+        border-bottom: 1px solid transparent;
+        border-radius: 0;
+      }
+      .nav-scrolled {
+        top: 15px;
+        left: 5%;
+        width: 90%;
+        background-color: rgba(212, 93, 139, 0.15);
+        backdrop-filter: blur(16px);
+        padding: 12px 25px;
+        border-radius: 50px;
+        border: 1px solid rgba(238, 156, 167, 0.3);
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+      }
+      .nav-link {
+        position: relative;
+        display: inline-block;
+      }
+      .nav-link::after {
+        content: "❤";
+        position: absolute;
+        bottom: -15px;
+        left: 50%;
+        transform: translateX(-50%) scale(0);
+        color: #d45d8b;
+        font-size: 12px;
+        transition: transform 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+      }
+      .nav-link:hover::after {
+        transform: translateX(-50%) scale(1);
+      }
+
+      /* --- INTRO & PORTAL ANIMATION --- */
+      #intro-screen {
+        clip-path: circle(150% at 50% 50%);
+        transition: clip-path 1.2s cubic-bezier(0.7, 0, 0.3, 1);
+      }
+      @keyframes bounceInCute {
+        0% {
+          transform: scale(0);
+          opacity: 0;
+        }
+        50% {
+          transform: scale(1.1);
+          opacity: 1;
+        }
+        70% {
+          transform: scale(0.95);
+          opacity: 1;
+        }
+        100% {
+          transform: scale(1);
+          opacity: 1;
+        }
+      }
+      .animate-bounce-cute {
+        opacity: 0;
+        animation: bounceInCute 1s cubic-bezier(0.68, -0.55, 0.265, 1.55)
+          forwards;
+      }
+
+      /* --- Global Click Love Effect --- */
+      @keyframes popLove {
+        0% {
+          opacity: 1;
+          transform: translate(-50%, -50%) scale(0.5);
+        }
+        50% {
+          transform: translate(-50%, -100px) scale(1.5);
+        }
+        100% {
+          opacity: 0;
+          transform: translate(-50%, -150px) scale(1);
+        }
+      }
+      .click-love {
+        position: fixed;
+        color: #d45d8b;
+        font-size: 1.5rem;
+        pointer-events: none;
+        z-index: 9990;
+        animation: popLove 1s ease-out forwards;
+        text-shadow: 0 0 15px rgba(212, 93, 139, 0.8);
+      }
+
+      /* --- ANIMASI SCROLL (Bouncy & Zigzag) --- */
+      .reveal {
+        opacity: 0;
+        transform: translateY(60px) scale(0.85);
+        transition: all 0.9s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+      }
+      .reveal-left {
+        opacity: 0;
+        transform: translateX(-80px) scale(0.9);
+        transition: all 1s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+      }
+      .reveal-right {
+        opacity: 0;
+        transform: translateX(80px) scale(0.9);
+        transition: all 1s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+      }
+      .reveal.active,
+      .reveal-left.active,
+      .reveal-right.active {
+        opacity: 1;
+        transform: translate(0) scale(1) rotate(var(--tw-rotate)); /* Keep rotation on reveal */
+      }
+      .delay-100 {
+        transition-delay: 100ms;
+      }
+      .delay-200 {
+        transition-delay: 200ms;
+      }
+      .delay-300 {
+        transition-delay: 300ms;
+      }
+
+      /* --- Glassmorphism Card --- */
+      .glass-card {
+        background: rgba(255, 255, 255, 0.03);
+        backdrop-filter: blur(16px);
+        border: 1px solid rgba(238, 156, 167, 0.15);
+        box-shadow:
+          0 4px 30px rgba(0, 0, 0, 0.5),
+          inset 0 0 20px rgba(238, 156, 167, 0.03);
+        transition: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+      }
+      .glass-card:hover {
+        background: rgba(255, 255, 255, 0.06);
+        border-color: rgba(238, 156, 167, 0.4);
+      }
+
+      /* --- Background Love Particle --- */
+      #particle-container {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+        z-index: 1;
+        overflow: hidden;
+      }
+      .love-particle {
+        position: absolute;
+        color: rgba(212, 93, 139, 0.3);
+        font-size: 24px;
+        opacity: 0;
+        animation: floatDownLove 15s infinite linear;
+        text-shadow: 0 0 10px rgba(212, 93, 139, 0.4);
+      }
+      @keyframes floatDownLove {
+        0% {
+          transform: translateY(-5vh) translateX(0) rotate(0deg) scale(0.5);
+          opacity: 0;
+        }
+        10% {
+          opacity: 0.7;
+        }
+        50% {
+          transform: translateY(50vh) translateX(50px) rotate(180deg) scale(1.2);
+        }
+        90% {
+          opacity: 0.7;
+        }
+        100% {
+          transform: translateY(105vh) translateX(-50px) rotate(360deg)
+            scale(0.5);
+          opacity: 0;
+        }
+      }
+
+      /* Music Player / Vinyl */
+      .spin-vinyl {
+        animation: spin 4s linear infinite;
+      }
+      .spin-paused {
+        animation-play-state: paused;
+      }
+      @keyframes spin {
+        100% {
+          transform: rotate(360deg);
+        }
+      }
+
+      /* Typewriter Blinking Cursor */
+      .typing-cursor::after {
+        content: "|";
+        animation: blink 1s step-start infinite;
+        color: #d45d8b;
+      }
+      @keyframes blink {
+        50% {
+          opacity: 0;
+        }
+      }
+
+      ::-webkit-scrollbar {
+        width: 8px;
+      }
+      ::-webkit-scrollbar-track {
+        background: #0a0205;
+      }
+      ::-webkit-scrollbar-thumb {
+        background: #5c1833;
+        border-radius: 4px;
+      }
+      ::-webkit-scrollbar-thumb:hover {
+        background: #d45d8b;
+      }
+    </style>
+  </head>
+  <body class="text-gray-200 font-sans overflow-x-hidden antialiased relative">
+    <!-- ================= CAHAYA BACKGROUND GLOBAL ================= -->
+    <div class="fixed inset-0 z-0 pointer-events-none overflow-hidden">
+      <div
+        class="absolute top-[-10%] left-[-10%] w-[50vw] h-[50vw] rounded-full bg-lux-pink/20 blur-[120px] mix-blend-screen animate-pulse"
+        style="animation-duration: 8s"
+      ></div>
+      <div
+        class="absolute bottom-[-10%] right-[-10%] w-[60vw] h-[60vw] rounded-full bg-[#5c1833]/40 blur-[150px] mix-blend-screen animate-pulse"
+        style="animation-duration: 10s"
+      ></div>
+    </div>
+
+    <!-- ================= INTRO / PRELOADER SCREEN ================= -->
+    <div
+      id="intro-screen"
+      class="fixed inset-0 z-[9999] flex flex-col items-center justify-center bg-[#0a0205]/90 backdrop-blur-md cursor-pointer"
+    >
+      <div
+        id="star-container"
+        class="absolute inset-0 overflow-hidden pointer-events-none"
+      ></div>
+
+      <div class="relative z-10 flex flex-col items-center">
+        <i
+          class="fas fa-heart text-lux-pink text-5xl mb-6 drop-shadow-[0_0_20px_rgba(212,93,139,0.8)] animate-bounce-cute"
+          style="animation-delay: 0.1s"
+        ></i>
+        <h1
+          class="text-3xl md:text-5xl font-serif text-white tracking-widest text-center leading-relaxed animate-bounce-cute"
+          style="animation-delay: 0.3s"
+        >
+          Happy Birthday <br />
+          <span
+            class="font-cursive text-6xl md:text-8xl text-rose-gold block mt-4 pb-2 drop-shadow-2xl"
+            >Aira Agustina</span
+          >
+        </h1>
+        <div
+          class="mt-12 px-8 py-3 rounded-full border border-lux-pink/40 bg-lux-pink/20 animate-bounce-cute shadow-[0_0_20px_rgba(212,93,139,0.3)] hover:scale-110 transition-transform"
+          style="animation-delay: 0.6s"
+        >
+          <span
+            class="text-[10px] tracking-[0.3em] uppercase text-white font-bold flex items-center gap-2 drop-shadow-md"
+          >
+            Tap To Open
+            <i class="fas fa-hand-pointer text-lux-pink animate-pulse"></i>
+          </span>
+        </div>
+      </div>
+    </div>
+
+    <div id="particle-container"></div>
+
+    <!-- ================= ELEMENT AUDIO ================= -->
+    <audio id="myAudio" loop>
+      <source
+        src="Bruno Mars - All I Ask [Studio Version].mp3"
+        type="audio/mpeg"
+      />
+    </audio>
+
+    <!-- Mini Spotify-like Player -->
+    <div
+      class="fixed bottom-6 right-6 md:right-8 z-50 glass-card rounded-[2rem] p-3 pr-5 flex items-center gap-4 w-72 shadow-2xl hover:scale-105 transition-transform origin-bottom-right"
+    >
+      <div
+        class="relative w-12 h-12 rounded-full border border-lux-pink/30 flex items-center justify-center bg-black overflow-hidden shadow-[0_0_15px_rgba(212,93,139,0.3)]"
+      >
+        <div
+          class="absolute inset-0 rounded-full border-[4px] border-[#111] border-dashed opacity-50"
+        ></div>
+        <img
+          id="albumArt"
+          src="https://images.unsplash.com/photo-1614613535308-eb5fbd3d2c17?q=80&w=200&auto=format&fit=crop"
+          class="w-full h-full object-cover spin-vinyl spin-paused opacity-80"
+          alt="Album"
+        />
+        <div
+          class="absolute w-3 h-3 bg-[#0a0205] rounded-full border border-gray-600 z-10"
+        ></div>
+      </div>
+      <div class="flex-1 overflow-hidden">
+        <h4 class="text-white text-sm font-semibold truncate leading-tight">
+          Soundtrack of Us
+        </h4>
+        <p
+          class="text-lux-pink text-[10px] uppercase tracking-widest truncate mt-0.5 font-medium"
+        >
+          Aira Agustina's Day
+        </p>
+      </div>
+      <button
+        id="musicToggle"
+        class="text-gray-300 hover:text-white transition-colors duration-300 transform hover:scale-110"
+      >
+        <i id="musicIcon" class="fas fa-play-circle text-3xl"></i>
+      </button>
+    </div>
+
+    <!-- Elegant Navbar -->
+    <nav
+      id="navbar"
+      class="fixed z-40 flex justify-between items-center nav-top"
+    >
+      <div class="flex items-center gap-3">
+        <span
+          class="font-cursive text-3xl md:text-4xl text-rose-gold tracking-wide pt-1"
+          >Aira Agustina</span
+        >
+        <i
+          class="fas fa-heart text-lux-pink text-sm animate-pulse shadow-lux-pink"
+        ></i>
+      </div>
+      <div
+        class="hidden md:flex space-x-10 text-[11px] uppercase tracking-[0.2em] font-medium text-gray-300"
+      >
+        <a
+          href="#hero"
+          class="nav-link hover:text-lux-pink transition-colors duration-300"
+          >Home</a
+        >
+        <a
+          href="#gallery"
+          class="nav-link hover:text-lux-pink transition-colors duration-300"
+          >Gallery</a
+        >
+        <a
+          href="#quirks"
+          class="nav-link hover:text-lux-pink transition-colors duration-300"
+          >Cute Sides</a
+        >
+        <a
+          href="#letter"
+          class="nav-link hover:text-lux-pink transition-colors duration-300"
+          >Letter</a
+        >
+      </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section
+      id="hero"
+      class="min-h-screen flex flex-col justify-center items-center text-center px-4 relative z-10 pt-16"
+    >
+      <div class="space-y-6 max-w-5xl reveal">
+        <p
+          class="text-[11px] uppercase tracking-[0.5em] text-lux-pink font-medium flex items-center justify-center gap-4 mb-4"
+        >
+          <span class="w-12 h-px bg-lux-pink/50"></span>
+          A Cinematic Celebration
+          <span class="w-12 h-px bg-lux-pink/50"></span>
+        </p>
+        <h1
+          class="text-4xl md:text-5xl lg:text-6xl font-serif text-white tracking-wide leading-relaxed drop-shadow-2xl"
+        >
+          Happy Birthday <br />
+          <span
+            class="font-cursive text-6xl md:text-8xl lg:text-[9rem] text-rose-gold block mt-2 md:mt-4 pb-6"
+            >Aira Agustina</span
+          >
+        </h1>
+        <div
+          id="timer"
+          class="flex justify-center gap-3 md:gap-5 mt-10 flex-wrap"
+        >
+          <div
+            class="glass-card px-5 py-4 md:px-6 md:py-5 rounded-2xl min-w-[80px] md:min-w-[110px] flex flex-col items-center justify-center"
+          >
+            <span
+              id="days"
+              class="text-2xl md:text-4xl font-serif text-white block"
+              >00</span
+            >
+            <span
+              class="text-[9px] md:text-[10px] uppercase tracking-[0.3em] text-lux-pink mt-2 font-medium"
+              >Days</span
+            >
+          </div>
+          <div
+            class="glass-card px-5 py-4 md:px-6 md:py-5 rounded-2xl min-w-[80px] md:min-w-[110px] flex flex-col items-center justify-center"
+          >
+            <span
+              id="hours"
+              class="text-2xl md:text-4xl font-serif text-white block"
+              >00</span
+            >
+            <span
+              class="text-[9px] md:text-[10px] uppercase tracking-[0.3em] text-lux-pink mt-2 font-medium"
+              >Hours</span
+            >
+          </div>
+          <div
+            class="glass-card px-5 py-4 md:px-6 md:py-5 rounded-2xl min-w-[80px] md:min-w-[110px] flex flex-col items-center justify-center"
+          >
+            <span
+              id="mins"
+              class="text-2xl md:text-4xl font-serif text-white block"
+              >00</span
+            >
+            <span
+              class="text-[9px] md:text-[10px] uppercase tracking-[0.3em] text-lux-pink mt-2 font-medium"
+              >Mins</span
+            >
+          </div>
+          <div
+            class="glass-card px-5 py-4 md:px-6 md:py-5 rounded-2xl min-w-[80px] md:min-w-[110px] flex flex-col items-center justify-center"
+          >
+            <span
+              id="secs"
+              class="text-2xl md:text-4xl font-serif text-white block"
+              >00</span
+            >
+            <span
+              class="text-[9px] md:text-[10px] uppercase tracking-[0.3em] text-lux-pink mt-2 font-medium"
+              >Secs</span
+            >
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- NEW ZIGZAG GALLERY SECTION (Agak Miring Kasual) -->
+    <section
+      id="gallery"
+      class="py-24 md:py-32 relative z-10 max-w-7xl mx-auto px-6 md:px-12 overflow-hidden"
+    >
+      <div class="text-center mb-24 reveal">
+        <span
+          class="text-[11px] uppercase tracking-[0.4em] text-lux-pink block mb-4 flex items-center justify-center gap-3 font-medium"
+        >
+          <span class="w-12 h-px bg-lux-pink"></span> Visual Symphony
+          <span class="w-12 h-px bg-lux-pink"></span>
+        </span>
+        <h2 class="text-4xl md:text-5xl lg:text-6xl font-serif text-white">
+          Moments of <br /><i class="text-lux-pink font-serif">Grace</i>
+        </h2>
+        <p
+          class="text-gray-400/90 font-light max-w-lg mx-auto mt-6 text-sm md:text-base leading-relaxed"
+        >
+          Setiap jepretan adalah bukti nyata betapa indahnya caramu menyinari
+          kehidupan ini. Sebuah galeri kecil untuk merayakan hadirmu.
+        </p>
+      </div>
+
+      <div class="space-y-32 md:space-y-40">
+        <!-- Poto 1: Teks Kiri, Foto Kanan (Miring Kanan 3 derajat) -->
+        <div
+          class="flex flex-col md:flex-row items-center gap-8 md:gap-16 group"
+        >
+          <div
+            class="w-full md:w-1/2 space-y-4 md:space-y-6 text-center md:text-right order-2 md:order-1 reveal-left"
+          >
+            <h3 class="font-serif text-3xl md:text-4xl text-white">
+              Senyuman Pagi
+            </h3>
+            <p
+              class="text-lux-pink uppercase tracking-widest text-[10px] md:text-xs font-medium"
+            >
+              Elegance
+            </p>
+            <p
+              class="text-gray-400 font-light leading-relaxed text-sm md:text-base"
+            >
+              Momen saat semesta seakan berhenti sejenak hanya untuk menyaksikan
+              lengkung senyummu. Segala beban terasa pudar seketika.
+            </p>
+          </div>
+          <div class="w-full md:w-1/2 order-1 md:order-2 reveal-right">
+            <div
+              class="glass-card p-3 rounded-[2.5rem] transform rotate-3 transition duration-700 hover:scale-105 hover:-rotate-2 cursor-pointer shadow-2xl"
+            >
+              <div class="overflow-hidden rounded-[2rem]">
+                <img
+                  src="img/1.png"
+                  class="w-full h-[350px] md:h-[450px] object-cover transition duration-700 hover:scale-110 filter brightness-90 hover:brightness-110"
+                  alt="Moment 1"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Poto 2: Foto Kiri, Teks Kanan (Miring Kiri 2 derajat) -->
+        <div
+          class="flex flex-col md:flex-row items-center gap-8 md:gap-16 group"
+        >
+          <div class="w-full md:w-1/2 order-1 reveal-left">
+            <div
+              class="glass-card p-3 rounded-[2.5rem] transform -rotate-2 transition duration-700 hover:scale-105 hover:rotate-3 cursor-pointer shadow-2xl"
+            >
+              <div class="overflow-hidden rounded-[2rem]">
+                <img
+                  src="img/2.png"
+                  class="w-full h-[350px] md:h-[450px] object-cover transition duration-700 hover:scale-110 filter brightness-90 hover:brightness-110"
+                  alt="Moment 2"
+                />
+              </div>
+            </div>
+          </div>
+          <div
+            class="w-full md:w-1/2 space-y-4 md:space-y-6 text-center md:text-left order-2 reveal-right"
+          >
+            <h3 class="font-serif text-3xl md:text-4xl text-white">
+              Tatapan Lembut
+            </h3>
+            <p
+              class="text-lux-pink uppercase tracking-widest text-[10px] md:text-xs font-medium"
+            >
+              Radiance
+            </p>
+            <p
+              class="text-gray-400 font-light leading-relaxed text-sm md:text-base"
+            >
+              Mata yang selalu berhasil menenangkan badai. Ada kehangatan yang
+              tak terucap setiap kali pandangan kita bertemu.
+            </p>
+          </div>
+        </div>
+
+        <!-- Poto 3: Teks Kiri, Foto Kanan (Miring Kanan 2 derajat) -->
+        <div
+          class="flex flex-col md:flex-row items-center gap-8 md:gap-16 group"
+        >
+          <div
+            class="w-full md:w-1/2 space-y-4 md:space-y-6 text-center md:text-right order-2 md:order-1 reveal-left"
+          >
+            <h3 class="font-serif text-3xl md:text-4xl text-white">
+              Damai Bersamamu
+            </h3>
+            <p
+              class="text-lux-pink uppercase tracking-widest text-[10px] md:text-xs font-medium"
+            >
+              Serenity
+            </p>
+            <p
+              class="text-gray-400 font-light leading-relaxed text-sm md:text-base"
+            >
+              Keheningan yang tak pernah terasa sepi, melainkan penuh makna.
+              Bersamamu adalah definisi tempat pulang yang paling nyaman.
+            </p>
+          </div>
+          <div class="w-full md:w-1/2 order-1 md:order-2 reveal-right">
+            <div
+              class="glass-card p-3 rounded-[2.5rem] transform rotate-2 transition duration-700 hover:scale-105 hover:-rotate-3 cursor-pointer shadow-2xl"
+            >
+              <div class="overflow-hidden rounded-[2rem]">
+                <img
+                  src="img/3.png"
+                  class="w-full h-[350px] md:h-[450px] object-cover transition duration-700 hover:scale-110 filter brightness-90 hover:brightness-110"
+                  alt="Moment 3"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Poto 4: Foto Kiri, Teks Kanan (Miring Kiri 3 derajat) -->
+        <div
+          class="flex flex-col md:flex-row items-center gap-8 md:gap-16 group"
+        >
+          <div class="w-full md:w-1/2 order-1 reveal-left">
+            <div
+              class="glass-card p-3 rounded-[2.5rem] transform -rotate-3 transition duration-700 hover:scale-105 hover:rotate-2 cursor-pointer shadow-2xl"
+            >
+              <div class="overflow-hidden rounded-[2rem]">
+                <img
+                  src="img/4.png"
+                  class="w-full h-[350px] md:h-[450px] object-cover transition duration-700 hover:scale-110 filter brightness-90 hover:brightness-110"
+                  alt="Moment 4"
+                />
+              </div>
+            </div>
+          </div>
+          <div
+            class="w-full md:w-1/2 space-y-4 md:space-y-6 text-center md:text-left order-2 reveal-right"
+          >
+            <h3 class="font-serif text-3xl md:text-4xl text-white">
+              Tawa Sempurna
+            </h3>
+            <p
+              class="text-lux-pink uppercase tracking-widest text-[10px] md:text-xs font-medium"
+            >
+              Joy
+            </p>
+            <p
+              class="text-gray-400 font-light leading-relaxed text-sm md:text-base"
+            >
+              Suara tawa yang selalu jadi melodi favoritku setiap hari. Sebuah
+              simfoni kebahagiaan yang melengkapi kepingan hati ini.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- END NEW ZIGZAG GALLERY -->
+
+    <!-- The Adorable Quirks -->
+    <section
+      id="quirks"
+      class="py-24 px-6 md:px-12 relative z-10 bg-gradient-to-b from-transparent via-[#1c0610]/40 to-transparent"
+    >
+      <div class="max-w-6xl mx-auto">
+        <div class="text-center mb-16 reveal">
+          <span
+            class="text-[11px] uppercase tracking-[0.4em] text-lux-pink block mb-4 font-medium"
+            >The Cute Details</span
+          >
+          <h2 class="text-3xl md:text-5xl font-serif text-white">
+            Sisi Lucu Tentangmu <br /><span
+              class="font-cursive text-5xl md:text-7xl text-rose-gold block mt-4 py-2"
+              >yang bikin gemes</span
+            >
+          </h2>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-5xl mx-auto">
+          <div
+            class="glass-card p-8 rounded-3xl text-center group reveal delay-100 hover:-rotate-2"
+          >
+            <div
+              class="w-16 h-16 mx-auto rounded-full bg-lux-pink/10 flex items-center justify-center mb-6 border border-lux-pink/20 group-hover:scale-110 transition-transform"
+            >
+              <i class="fas fa-face-angry text-lux-pink text-2xl"></i>
+            </div>
+            <h3 class="text-xl font-serif text-white mb-3">Mode Ngambek</h3>
+            <p class="text-gray-400 font-light text-sm leading-relaxed">
+              Kalo lagi mode ngambek dan bibirnya dimajuin dikit, niatnya mau
+              kelihatan galak tapi jatuhnya malah nambah lucu 1000%.
+            </p>
+          </div>
+          <div
+            class="glass-card p-8 rounded-3xl text-center group reveal delay-200 hover:scale-105"
+          >
+            <div
+              class="w-16 h-16 mx-auto rounded-full bg-lux-pink/10 flex items-center justify-center mb-6 border border-lux-pink/20 group-hover:scale-110 transition-transform"
+            >
+              <i class="fas fa-utensils text-lux-pink text-2xl"></i>
+            </div>
+            <h3 class="text-xl font-serif text-white mb-3">Random Cravings</h3>
+            <p class="text-gray-400 font-light text-sm leading-relaxed">
+              Bisa-bisanya jam 11 malam tiba-tiba BM pengen seblak pedes atau
+              makanan random lainnya yang bikin panik nyarinya.
+            </p>
+          </div>
+          <div
+            class="glass-card p-8 rounded-3xl text-center group reveal delay-300 hover:rotate-2"
+          >
+            <div
+              class="w-16 h-16 mx-auto rounded-full bg-lux-pink/10 flex items-center justify-center mb-6 border border-lux-pink/20 group-hover:scale-110 transition-transform"
+            >
+              <i class="fas fa-bed text-lux-pink text-2xl"></i>
+            </div>
+            <h3 class="text-xl font-serif text-white mb-3">Tukang Tidur</h3>
+            <p class="text-gray-400 font-light text-sm leading-relaxed">
+              Gampang banget ketiduran kalau udah kena angin sepoi-sepoi, tapi
+              lucunya tidurnya tetep kelihatan anggun.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Devotion Section -->
+    <section id="reasons" class="py-32 px-6 md:px-12 relative z-10">
+      <div class="max-w-7xl mx-auto">
+        <div class="text-center mb-20 reveal">
+          <span
+            class="text-[11px] uppercase tracking-[0.4em] text-lux-pink block mb-4 font-medium"
+            >My Infinite Devotion</span
+          >
+          <h2 class="text-3xl md:text-5xl lg:text-6xl font-serif text-white">
+            A Thousand Reasons <br /><span
+              class="italic text-gray-400 font-light text-2xl md:text-3xl"
+              >& Counting</span
+            >
+          </h2>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div
+            class="glass-card p-10 rounded-3xl relative overflow-hidden group reveal delay-100"
+          >
+            <div
+              class="absolute -top-10 -right-6 p-4 font-serif text-9xl text-white/5 font-bold"
+            >
+              1
+            </div>
+            <div
+              class="w-14 h-14 rounded-2xl bg-gradient-to-br from-lux-pink/20 to-transparent flex items-center justify-center mb-8 border border-lux-pink/20 group-hover:scale-110 transition-transform"
+            >
+              <i class="fas fa-sparkles text-lux-pink text-xl"></i>
+            </div>
+            <h3 class="text-3xl font-serif text-white mb-4">Radiance</h3>
+            <p class="text-gray-400/90 font-light leading-relaxed text-sm">
+              Caramu berjalan masuk ke dalam ruangan dan membuat segalanya
+              terasa jauh lebih indah secara instan adalah sebuah keajaiban.
+            </p>
+          </div>
+          <div
+            class="glass-card p-10 rounded-3xl relative overflow-hidden group reveal delay-200"
+          >
+            <div
+              class="absolute -top-10 -right-6 p-4 font-serif text-9xl text-white/5 font-bold"
+            >
+              2
+            </div>
+            <div
+              class="w-14 h-14 rounded-2xl bg-gradient-to-br from-lux-pink/20 to-transparent flex items-center justify-center mb-8 border border-lux-pink/20 group-hover:scale-110 transition-transform"
+            >
+              <i class="fas fa-heart text-lux-pink text-xl"></i>
+            </div>
+            <h3 class="text-3xl font-serif text-white mb-4">Gentle Heart</h3>
+            <p class="text-gray-400/90 font-light leading-relaxed text-sm">
+              Caramu memperlakukan sekelilingmu dengan keanggunan yang lembut
+              menjadi pengingat abadi tentang keindahan hati.
+            </p>
+          </div>
+          <div
+            class="glass-card p-10 rounded-3xl relative overflow-hidden group reveal delay-300"
+          >
+            <div
+              class="absolute -top-10 -right-6 p-4 font-serif text-9xl text-white/5 font-bold"
+            >
+              3
+            </div>
+            <div
+              class="w-14 h-14 rounded-2xl bg-gradient-to-br from-lux-pink/20 to-transparent flex items-center justify-center mb-8 border border-lux-pink/20 group-hover:scale-110 transition-transform"
+            >
+              <i class="fas fa-moon text-lux-pink text-xl"></i>
+            </div>
+            <h3 class="text-3xl font-serif text-white mb-4">Safe Harbor</h3>
+            <p class="text-gray-400/90 font-light leading-relaxed text-sm">
+              Mencintaimu rasanya seperti pulang ke sebuah tempat paling nyaman
+              yang tak pernah kusadari telah kucari selama ini.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Letter Section -->
+    <section
+      id="letter"
+      class="py-32 px-6 md:px-12 max-w-5xl mx-auto relative z-10"
+    >
+      <div
+        class="glass-card p-8 md:p-20 rounded-[2.5rem] relative overflow-hidden reveal shadow-2xl shadow-lux-pink/5"
+      >
+        <div
+          class="absolute top-0 left-0 w-64 h-64 bg-lux-pink/20 rounded-full blur-[80px] -translate-x-1/2 -translate-y-1/2"
+        ></div>
+        <div
+          class="absolute bottom-0 right-0 w-64 h-64 bg-[#7a1b41]/20 rounded-full blur-[80px] translate-x-1/2 translate-y-1/2"
+        ></div>
+        <div class="relative z-10">
+          <div class="text-center mb-12">
+            <div
+              class="w-20 h-20 mx-auto bg-lux-pink/10 rounded-full flex items-center justify-center mb-6"
+            >
+              <i class="fas fa-envelope-open-text text-lux-pink text-3xl"></i>
+            </div>
+            <h2 class="text-4xl md:text-5xl font-serif text-white">
+              Words Left Unspoken
+            </h2>
+            <p
+              class="text-[11px] uppercase tracking-[0.4em] text-gray-400 mt-4 font-medium"
+            >
+              Confidential & Yours Truly
+            </p>
+          </div>
+          <div
+            id="typewriter-content"
+            class="space-y-8 font-serif text-xl md:text-2xl text-gray-300 leading-loose text-center max-w-3xl mx-auto italic min-h-[300px]"
+          >
+            <p
+              class="type-line"
+              data-text='"Aira Agustina, hari-hari berjalan dengan arti yang jauh berbeda sejak kehadiranmu. Setiap pagi terasa menyimpan sebuah alasan baru untuk bersyukur, hanya karena tahu bahwa kita sedang memandangi langit yang sama."'
+            ></p>
+            <p
+              class="type-line"
+              data-text='"Di hari istimewamu ini, aku tidak ingin sekadar mengucapkan selamat. Aku ingin merayakan keindahan dirimu—cara kamu tertawa, caramu bertahan melewati hari-hari lelah, dan caramu tetap bersinar tanpa pamrih."'
+            ></p>
+            <p
+              class="type-line"
+              data-text='"Semoga tahun yang baru ini menuntun langkahmu menuju seluruh impian besar yang sering kau ceritakan. Ingatlah selalu, sejauh apa pun duniamu berputar, kamu akan selalu memiliki pelukan hangat untuk pulang."'
+            ></p>
+          </div>
+          <div
+            class="mt-20 text-center flex flex-col items-center opacity-0 transition-opacity duration-1000"
+            id="signature"
+          >
+            <div class="w-16 h-[1px] bg-lux-pink/50 mb-8"></div>
+            <span
+              class="text-[10px] uppercase tracking-[0.3em] text-gray-400 block mb-4 font-medium"
+              >With absolute devotion,</span
+            >
+            <span class="font-cursive text-4xl md:text-5xl text-rose-gold pb-4"
+              >your protector</span
+            >
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Wishing Well Section -->
+    <section
+      id="wishes"
+      class="py-32 px-6 md:px-12 relative z-10 text-center border-t border-white/5 bg-black/40 backdrop-blur-sm"
+    >
+      <div class="max-w-3xl mx-auto space-y-10 reveal">
+        <div>
+          <i class="fas fa-star-shooting text-lux-pink text-3xl mb-6"></i>
+          <h2 class="text-4xl md:text-5xl font-serif text-white mb-4">
+            The Virtual Wishing Well
+          </h2>
+          <p class="text-gray-400 font-light text-sm md:text-base">
+            Tuliskan doa atau harapanmu untuk Aira Agustina, lalu lepaskan ke
+            langit malam agar semesta mendengarnya.
+          </p>
+        </div>
+        <div
+          class="flex flex-col sm:flex-row gap-4 justify-center items-center mt-10 relative"
+        >
+          <input
+            id="wishInput"
+            type="text"
+            placeholder="Ketik doamu di sini..."
+            class="w-full sm:w-[28rem] px-8 py-4 md:py-5 bg-white/5 backdrop-blur-md border border-white/10 rounded-full focus:outline-none focus:border-lux-pink/60 focus:bg-white/10 transition-all duration-300 text-sm text-white placeholder-gray-500 shadow-inner"
+          />
+          <button
+            id="sendWish"
+            class="px-10 py-4 md:py-5 bg-gradient-to-r from-lux-pink to-[#9d2b56] text-white rounded-full text-[11px] font-bold uppercase tracking-[0.2em] hover:shadow-[0_0_30px_rgba(212,93,139,0.4)] hover:scale-105 transition-all duration-300 w-full sm:w-auto flex items-center justify-center gap-3"
+          >
+            Cast Wish <i class="fas fa-paper-plane"></i>
+          </button>
+        </div>
+        <div
+          id="wishNotice"
+          class="text-sm text-lux-pink italic min-h-[24px] transition-all duration-500 opacity-0 transform translate-y-4"
+        ></div>
+      </div>
+    </section>
+
+    <footer class="py-12 text-center relative z-10 bg-[#060103]">
+      <div class="max-w-md mx-auto px-4 space-y-6 flex flex-col items-center">
+        <div
+          class="w-8 h-8 rounded-full border border-lux-pink/30 flex items-center justify-center text-lux-pink text-xs"
+        >
+          ♡
+        </div>
+        <p
+          class="text-[10px] uppercase tracking-[0.4em] text-gray-500 font-medium"
+        >
+          Exclusively Handcrafted
+        </p>
+        <p class="text-[11px] font-light text-gray-600">
+          &copy; 2026 Celestial Designs. All Rights Reserved.
+        </p>
+      </div>
+    </footer>
+
+    <script>
+      // DEKLARASI ELEMENT AUDIO & PLAYER
+      const audio = document.getElementById("myAudio");
+      const musicBtn = document.getElementById("musicToggle");
+      const musicIcon = document.getElementById("musicIcon");
+      const albumArt = document.getElementById("albumArt");
+      let isPlaying = false;
+
+      // --- 0. Generate Bintik Love buat Intro ---
+      const starContainer = document.getElementById("star-container");
+      for (let i = 0; i < 40; i++) {
+        const star = document.createElement("div");
+        star.className = "twinkle-love";
+        star.innerHTML = "❤";
+        const size = Math.random() * 10 + 8;
+        star.style.fontSize = `${size}px`;
+        star.style.left = `${Math.random() * 100}vw`;
+        star.style.top = `${Math.random() * 100}vh`;
+        star.style.animationDelay = `${Math.random() * 3}s`;
+        starContainer.appendChild(star);
+      }
+
+      // --- 1. Intro Portal & REAL FIREWORKS (Sirkus/Film Style) + AUTO PLAY MUSIC ---
+      const introScreen = document.getElementById("intro-screen");
+      const body = document.body;
+
+      introScreen.addEventListener("click", function (e) {
+        // Animasi portal menutup
+        this.style.clipPath = `circle(0% at ${e.clientX}px ${e.clientY}px)`;
+
+        // PLAY MUSIK OTOMATIS
+        audio
+          .play()
+          .then(() => {
+            isPlaying = true;
+            musicIcon.className = "fas fa-pause-circle text-3xl text-lux-pink";
+            albumArt.classList.remove("spin-paused");
+          })
+          .catch((err) => {
+            console.log(
+              "Autoplay ditahan browser, klik manual di player.",
+              err,
+            );
+          });
+
+        setTimeout(() => {
+          // Efek Kembang Api Spektakuler (Fountain + Sky Bursts)
+          const duration = 6000; // Nyembur selama 6 detik!
+          const animationEnd = Date.now() + duration;
+          const defaults = {
+            startVelocity: 30,
+            spread: 360,
+            ticks: 60,
+            zIndex: 9999,
+          };
+
+          function randomInRange(min, max) {
+            return Math.random() * (max - min) + min;
+          }
+
+          const interval = setInterval(function () {
+            const timeLeft = animationEnd - Date.now();
+
+            if (timeLeft <= 0) {
+              return clearInterval(interval);
+            }
+
+            const particleCount = 50 * (timeLeft / duration);
+
+            // 1. Fountain Nyembur dari Kiri Bawah
+            confetti({
+              particleCount: 15,
+              angle: 60,
+              spread: 55,
+              origin: { x: 0, y: 1 },
+              colors: ["#d45d8b", "#f4c2c2", "#ffdde1", "#ffffff", "#ffd700"],
+              startVelocity: randomInRange(40, 70), // Kecepatan acak biar natural
+            });
+
+            // 2. Fountain Nyembur dari Kanan Bawah
+            confetti({
+              particleCount: 15,
+              angle: 120,
+              spread: 55,
+              origin: { x: 1, y: 1 },
+              colors: ["#d45d8b", "#f4c2c2", "#ffdde1", "#ffffff", "#ffd700"],
+              startVelocity: randomInRange(40, 70),
+            });
+
+            // 3. Sky Bursts (Ledakan di langit secara random)
+            if (Math.random() > 0.4) {
+              confetti({
+                ...defaults,
+                particleCount: Math.floor(particleCount),
+                origin: {
+                  x: randomInRange(0.1, 0.9),
+                  y: randomInRange(0.1, 0.4),
+                },
+                colors: ["#d45d8b", "#f4c2c2", "#ffdde1", "#ffffff", "#ffd700"],
+              });
+            }
+          }, 250); // Tembak setiap 250ms
+        }, 400);
+
+        // Sembunyiin element total biar bisa di scroll
+        setTimeout(() => {
+          this.style.display = "none";
+          body.style.overflowY = "auto";
+        }, 1200);
+      });
+
+      // --- 2. Global Click Heart Effect ---
+      document.addEventListener("click", function (e) {
+        if (
+          e.target.tagName.toLowerCase() === "input" ||
+          e.target.closest("#intro-screen") ||
+          e.target.closest("#musicToggle")
+        )
+          return;
+        const heart = document.createElement("div");
+        heart.innerHTML = "❤";
+        heart.className = "click-love";
+        heart.style.left = e.clientX + "px";
+        heart.style.top = e.clientY + "px";
+        document.body.appendChild(heart);
+        setTimeout(() => heart.remove(), 1000);
+      });
+
+      // --- 3. Navbar Transitions ---
+      window.addEventListener("scroll", () => {
+        const nav = document.getElementById("navbar");
+        if (window.scrollY > 80) {
+          nav.classList.remove("nav-top");
+          nav.classList.add("nav-scrolled");
+        } else {
+          nav.classList.remove("nav-scrolled");
+          nav.classList.add("nav-top");
+        }
+      });
+
+      // --- 4. Reveal on Scroll (Termasuk Reveal Kiri/Kanan untuk Zigzag) ---
+      const observerOptions = {
+        root: null,
+        rootMargin: "0px",
+        threshold: 0.15,
+      };
+      const observer = new IntersectionObserver((entries, observer) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("active");
+            observer.unobserve(entry.target);
+          }
+        });
+      }, observerOptions);
+      document
+        .querySelectorAll(".reveal, .reveal-left, .reveal-right")
+        .forEach((el) => observer.observe(el));
+
+      // --- 5. Typewriter Effect ---
+      const typeWriterObserver = new IntersectionObserver(
+        (entries, observer) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              const paragraphs = entry.target.querySelectorAll(".type-line");
+              const signature = document.getElementById("signature");
+              let delayTime = 0;
+
+              paragraphs.forEach((p, index) => {
+                const text = p.getAttribute("data-text");
+                p.innerHTML = "";
+                setTimeout(() => {
+                  let i = 0;
+                  p.classList.add("typing-cursor");
+                  const typing = setInterval(() => {
+                    p.innerHTML = text.substring(0, i + 1);
+                    i++;
+                    if (i >= text.length) {
+                      clearInterval(typing);
+                      p.classList.remove("typing-cursor");
+                      if (index === paragraphs.length - 1) {
+                        setTimeout(() => {
+                          signature.classList.remove("opacity-0");
+                          signature.classList.add("opacity-100");
+                        }, 500);
+                      }
+                    }
+                  }, 35);
+                }, delayTime);
+                delayTime += text.length * 35 + 600;
+              });
+              observer.unobserve(entry.target);
+            }
+          });
+        },
+        { threshold: 0.4 },
+      );
+      typeWriterObserver.observe(document.getElementById("typewriter-content"));
+
+      // --- 6. Countdown Timer ---
+      const targetDate = new Date("2026-12-31T00:00:00").getTime();
+      function initCountdown() {
+        const now = new Date().getTime();
+        const diff = targetDate - now;
+        if (diff <= 0) {
+          document.getElementById("timer").innerHTML =
+            "<span class='text-2xl md:text-3xl text-lux-pink tracking-[0.3em] uppercase font-serif font-light reveal active'>The Celebration Has Begun ✨</span>";
+          return;
+        }
+        document.getElementById("days").innerText = String(
+          Math.floor(diff / (1000 * 60 * 60 * 24)),
+        ).padStart(2, "0");
+        document.getElementById("hours").innerText = String(
+          Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)),
+        ).padStart(2, "0");
+        document.getElementById("mins").innerText = String(
+          Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60)),
+        ).padStart(2, "0");
+        document.getElementById("secs").innerText = String(
+          Math.floor((diff % (1000 * 60)) / 1000),
+        ).padStart(2, "0");
+      }
+      setInterval(initCountdown, 1000);
+      initCountdown();
+
+      // --- 7. Heart Background Particles ---
+      const container = document.getElementById("particle-container");
+      for (let i = 0; i < 20; i++) {
+        const heart = document.createElement("div");
+        heart.classList.add("love-particle");
+        heart.innerHTML = "❤";
+        const size = Math.random() * 12 + 8;
+        heart.style.fontSize = `${size}px`;
+        heart.style.left = `${Math.random() * 100}vw`;
+        heart.style.top = `${Math.random() * -20}vh`;
+        heart.style.animationDuration = `${Math.random() * 12 + 15}s`;
+        heart.style.animationDelay = `${Math.random() * 10}s`;
+        container.appendChild(heart);
+      }
+
+      // --- 8. Wishing Well UI ---
+      const sendBtn = document.getElementById("sendWish");
+      const inputField = document.getElementById("wishInput");
+      const notice = document.getElementById("wishNotice");
+      sendBtn.addEventListener("click", () => {
+        if (inputField.value.trim() !== "") {
+          notice.innerText =
+            "✨ Doamu telah dilepaskan menuju angkasa dan terekam di bintang-bintang...";
+          notice.style.opacity = "1";
+          notice.style.transform = "translateY(0)";
+          inputField.value = "";
+          setTimeout(() => {
+            notice.style.opacity = "0";
+            notice.style.transform = "translateY(4px)";
+          }, 5000);
+        } else {
+          notice.innerText =
+            "Tuliskan sesuatu terlebih dahulu di dalam sumur harapan.";
+          notice.style.opacity = "1";
+          notice.style.transform = "translateY(0)";
+        }
+      });
+
+      // --- 9. Spotify-like Music Toggle ---
+      musicBtn.addEventListener("click", () => {
+        if (isPlaying) {
+          // Kalau lagi nyala, matiin
+          audio.pause();
+          musicIcon.className = "fas fa-play-circle text-3xl text-gray-300";
+          albumArt.classList.add("spin-paused");
+          isPlaying = false;
+        } else {
+          // Kalau mati, nyalain
+          audio.play();
+          musicIcon.className = "fas fa-pause-circle text-3xl text-lux-pink";
+          albumArt.classList.remove("spin-paused");
+          isPlaying = true;
+        }
+      });
+    </script>
+  </body>
+</html>
