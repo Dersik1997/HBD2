@@ -265,8 +265,7 @@
           opacity: 0.7;
         }
         100% {
-          transform: translateY(105vh) translateX(-50px) rotate(360deg)
-            scale(0.5);
+          transform: translateY(105vh) translateX(-50px) rotate(360deg) scale(0.5);
           opacity: 0;
         }
       }
@@ -417,39 +416,39 @@
       class="fixed z-40 flex justify-between items-center nav-top"
     >
       <div class="flex items-center gap-3">
-        <span
-          class="font-cursive text-3xl md:text-4xl text-rose-gold tracking-wide pt-1"
-          >Aira Agustina</span
-        >
-        <i
-          class="fas fa-heart text-lux-pink text-sm animate-pulse shadow-lux-pink"
-        ></i>
+        <span class="font-cursive text-3xl md:text-4xl text-rose-gold tracking-wide pt-1">
+          Aira Agustina
+        </span>
+        <i class="fas fa-heart text-lux-pink text-sm animate-pulse shadow-lux-pink"></i>
       </div>
-      <div
-        class="hidden md:flex space-x-10 text-[11px] uppercase tracking-[0.2em] font-medium text-gray-300"
-      >
-        <a
-          href="#hero"
-          class="nav-link hover:text-lux-pink transition-colors duration-300"
-          >Home</a
-        >
-        <a
-          href="#gallery"
-          class="nav-link hover:text-lux-pink transition-colors duration-300"
-          >Gallery</a
-        >
-        <a
-          href="#quirks"
-          class="nav-link hover:text-lux-pink transition-colors duration-300"
-          >Cute Sides</a
-        >
-        <a
-          href="#letter"
-          class="nav-link hover:text-lux-pink transition-colors duration-300"
-          >Letter</a
-        >
+      
+      <!-- Desktop Menu -->
+      <div class="hidden md:flex space-x-10 text-[11px] uppercase tracking-[0.2em] font-medium text-gray-300">
+        <a href="#hero" class="nav-link hover:text-lux-pink transition-colors duration-300">Home</a>
+        <a href="#gallery" class="nav-link hover:text-lux-pink transition-colors duration-300">Gallery</a>
+        <a href="#quirks" class="nav-link hover:text-lux-pink transition-colors duration-300">Cute Sides</a>
+        <a href="#letter" class="nav-link hover:text-lux-pink transition-colors duration-300">Letter</a>
       </div>
+
+      <!-- Hamburger Button (Mobile Only) -->
+      <button id="mobile-btn" class="md:hidden text-gray-300 hover:text-lux-pink focus:outline-none transition-transform duration-300 hover:scale-110">
+        <i class="fas fa-bars text-2xl"></i>
+      </button>
     </nav>
+
+    <!-- Fullscreen Mobile Menu Overlay -->
+    <div id="mobile-menu" class="fixed inset-0 z-[100] bg-[#0a0205]/95 backdrop-blur-xl flex-col items-center justify-center space-y-10 text-sm uppercase tracking-[0.3em] font-medium text-gray-300 transition-all duration-500 opacity-0 pointer-events-none flex">
+      <!-- Close Button -->
+      <button id="close-btn" class="absolute top-8 right-8 text-gray-400 hover:text-lux-pink transition-transform duration-300 hover:scale-110 focus:outline-none">
+        <i class="fas fa-times text-4xl"></i>
+      </button>
+      
+      <!-- Mobile Links -->
+      <a href="#hero" class="mobile-link hover:text-lux-pink transition-colors duration-300 text-xl">Home</a>
+      <a href="#gallery" class="mobile-link hover:text-lux-pink transition-colors duration-300 text-xl">Gallery</a>
+      <a href="#quirks" class="mobile-link hover:text-lux-pink transition-colors duration-300 text-xl">Cute Sides</a>
+      <a href="#letter" class="mobile-link hover:text-lux-pink transition-colors duration-300 text-xl">Letter</a>
+    </div>
 
     <!-- Hero Section -->
     <section
@@ -1087,7 +1086,9 @@
         if (
           e.target.tagName.toLowerCase() === "input" ||
           e.target.closest("#intro-screen") ||
-          e.target.closest("#musicToggle")
+          e.target.closest("#musicToggle") ||
+          e.target.closest("#mobile-btn") ||
+          e.target.closest("#close-btn")
         )
           return;
         const heart = document.createElement("div");
@@ -1248,6 +1249,34 @@
           albumArt.classList.remove("spin-paused");
           isPlaying = true;
         }
+      });
+
+      // --- 10. Mobile Menu Toggle ---
+      const mobileBtn = document.getElementById('mobile-btn');
+      const closeBtn = document.getElementById('close-btn');
+      const mobileMenu = document.getElementById('mobile-menu');
+      const mobileLinks = document.querySelectorAll('.mobile-link');
+
+      function toggleMenu(show) {
+        if (show) {
+          mobileMenu.classList.remove('opacity-0', 'pointer-events-none');
+          mobileMenu.classList.add('opacity-100', 'pointer-events-auto');
+          document.body.style.overflowY = 'hidden'; // Mengunci scroll background
+        } else {
+          mobileMenu.classList.remove('opacity-100', 'pointer-events-auto');
+          mobileMenu.classList.add('opacity-0', 'pointer-events-none');
+          document.body.style.overflowY = 'auto'; // Membuka kunci scroll
+        }
+      }
+
+      mobileBtn.addEventListener('click', () => toggleMenu(true));
+      closeBtn.addEventListener('click', () => toggleMenu(false));
+      
+      // Menutup menu otomatis saat link diklik
+      mobileLinks.forEach(link => {
+        link.addEventListener('click', () => {
+          toggleMenu(false);
+        });
       });
     </script>
   </body>
